@@ -41,20 +41,7 @@ public class ItemsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ItemDto>> CreateItem([FromBody] CreateItemDto newItem)
     {
-        // Item item = new()
-        // {
-        //     Name = newItem.Name,
-        //     ItemPrice = new Price()
-        //     {
-        //         Amount = newItem.ItemPrice.Amount,
-        //         CurrencyType = newItem.ItemPrice.CurrencyType
-        //     },
-        //     ItemQuantity = new Quantity()
-        //     {
-        //         Count = newItem.ItemQuantity.Count,
-        //         QuantityType = newItem.ItemQuantity.QuantityType
-        //     }
-        // };
+        
 
         Item item = newItem.CreateDto();
 
@@ -72,20 +59,22 @@ public class ItemsController : ControllerBase
             return NotFound();
         }
 
-         Item updatedItem = item with
-         {
-             Name = itemDto.Name,
-             ItemPrice = new Price()
-             {
-                 Amount = itemDto.ItemPrice.Amount,
-                 CurrencyType =  itemDto.ItemPrice.CurrencyType
-             },
-             ItemQuantity = new Quantity()
-             {
-                 Count = itemDto.ItemQuantity.Count,
-                 QuantityType = itemDto.ItemQuantity.QuantityType
-             }
-         };
+         // Item updatedItem = item with
+         // {
+         //     Name = itemDto.Name,
+         //     ItemPrice = new Price()
+         //     {
+         //         Amount = itemDto.ItemPrice.Amount,
+         //         CurrencyType =  itemDto.ItemPrice.CurrencyType
+         //     },
+         //     ItemQuantity = new Quantity()
+         //     {
+         //         Count = itemDto.ItemQuantity.Count,
+         //         QuantityType = itemDto.ItemQuantity.QuantityType
+         //     }
+         // };
+
+         Item updatedItem = itemDto.UpdateDto();
          
          await _itemsRepository.UpdateItemAsync(updatedItem);
 
