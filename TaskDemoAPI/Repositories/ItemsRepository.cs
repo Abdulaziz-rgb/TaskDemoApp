@@ -34,11 +34,12 @@ public class ItemsRepository : IItemsRepository
         await _itemsCollection.InsertOneAsync(newItem);
     }
 
-    public async Task UpdateItemAsync(Item item)
-    {
-        var filter = _filterBuilder.Eq(existingItem => existingItem.Id, item.Id);
-        await _itemsCollection.ReplaceOneAsync(filter, item);
-    }
+     public async Task UpdateItemAsync(Item item)
+     {
+         var filter = _filterBuilder.Eq(existingItem => existingItem.Id, item.Id);
+         await _itemsCollection.ReplaceOneAsync(filter, item);
+     }
+    
 
     public async Task DeleteItemAsync(string id)
     {
