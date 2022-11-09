@@ -25,7 +25,7 @@ public class ItemsController : ControllerBase
         return items.Select(item => item.AsDto());
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:length(24)}")]
     public async Task<ActionResult<ItemDto>> GetItem(string id)
     {
         var item = await _itemsRepository.GetItemAsync(id);
@@ -60,7 +60,7 @@ public class ItemsController : ControllerBase
         return CreatedAtAction(nameof(GetItem), new { id = item.Id }, item.AsDto());
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:length(24)}")]
     public async Task<ActionResult> UpdateItem(string id, UpdateItemDto itemDto)
     {
         var item = await _itemsRepository.GetItemAsync(id);
@@ -91,7 +91,7 @@ public class ItemsController : ControllerBase
     }
     
     
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:length(24)}")]
     public async Task<ActionResult> DeleteItem(string id)
     {
 
