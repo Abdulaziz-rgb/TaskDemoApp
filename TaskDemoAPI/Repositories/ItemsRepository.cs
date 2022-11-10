@@ -39,7 +39,12 @@ public class ItemsRepository : IItemsRepository
          var filter = _filterBuilder.Eq(existingItem => existingItem.Id, item.Id);
          await _itemsCollection.ReplaceOneAsync(filter, item);
      }
-    
+
+     public async Task UpdateQuantityAsync(string id, Quantity quantity)
+     {
+         var set = Builders<Item>.Update.Set(x => x.ItemQuantity, quantity);
+         await _itemsCollection.UpdateOneAsync(item => item.Id == id, set);
+     }
 
     public async Task DeleteItemAsync(string id)
     {

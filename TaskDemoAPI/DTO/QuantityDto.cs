@@ -12,4 +12,5 @@ public class QuantityDto
     [JsonConverter(typeof(JsonStringEnumConverter))]
     [BsonRepresentation(BsonType.String)]
     public QuantityTypeEnum QuantityType { get; set; }
+    
 }

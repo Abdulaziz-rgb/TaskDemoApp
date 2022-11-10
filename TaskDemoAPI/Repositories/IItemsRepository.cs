@@ -11,6 +11,7 @@ public interface IItemsRepository
     Task CreateItemAsync(Item newItem);
     
     Task UpdateItemAsync(Item item);
+    Task UpdateQuantityAsync(string id, Quantity quantity);
     
     Task DeleteItemAsync(string id);
 }
