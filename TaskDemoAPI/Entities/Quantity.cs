@@ -12,4 +12,8 @@ public class Quantity
     [JsonConverter(typeof(JsonStringEnumConverter))]
     [BsonRepresentation(BsonType.String)]
     public QuantityTypeEnum QuantityType { get; set; }
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [BsonRepresentation(BsonType.String)]
+    public OperationTypeEnum OperationType { get; set; }
 }

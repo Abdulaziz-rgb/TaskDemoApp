@@ -40,10 +40,12 @@ public class ItemsRepository : IItemsRepository
          await _itemsCollection.ReplaceOneAsync(filter, item);
      }
 
-     public async Task<Item?> UpdateQuantityAsync(string id, Quantity quantity)
+     public async Task<Item?> UpdateQuantityAsync(string id, Quantity quantity, List<Quantity> history)
      {
          var filter = _filterBuilder.Eq(item => item.Id, id);
-         var set = Builders<Item>.Update.Set(x => x.ItemQuantity, quantity);
+         var set = Builders<Item>.Update
+             .Set(x => x.Quantity, quantity)
+             .Set(x => x.QuantityHistories, history);
          await _itemsCollection.UpdateOneAsync(filter, set);
 
          return await GetItemAsync(id);

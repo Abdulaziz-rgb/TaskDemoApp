@@ -6,12 +6,10 @@ using TaskDemoAPI.Services;
 
 namespace TaskDemoAPI.Controllers;
 
-
 [ApiController]
 [Route("api/items")]
 public class ItemsController : ControllerBase
 {
-
     private readonly IItemsRepository _itemsRepository;
 
     public ItemsController(IItemsRepository itemsRepository)
@@ -57,33 +55,37 @@ public class ItemsController : ControllerBase
     }
     
     [HttpPut("{id:length(24)}/quantity")]
-    public async Task<ActionResult<ItemDto>> UpdateItem(string id, [FromBody] QuantityDto quantity)
+    public async Task<ActionResult<ItemDto>> UpdateItem(string id, [FromBody] QuantityDto request)
     {
         var item = await _itemsRepository.GetItemAsync(id);
         if (item is null) return NotFound();
+        if (item.Quantity.QuantityType != request.QuantityType) 
+            throw new BadHttpRequestException("Quantity type does not match", 400);
+        if (item.Quantity.Count < request.Count && request.OperationType == OperationTypeEnum.SUB) 
+            throw new BadHttpRequestException("Item count cannot be less than that of the request", 400);
         
         var newQuantity = new Quantity();
-        newQuantity.Count = quantity.OperationType switch
+        newQuantity.Count = request.OperationType switch
         {
-            OperationTypeEnum.ADD => item.ItemQuantity.Count + quantity.Count,
-            OperationTypeEnum.SUB => item.ItemQuantity.Count - quantity.Count,
+            OperationTypeEnum.ADD => item.Quantity.Count + request.Count,
+            OperationTypeEnum.SUB => item.Quantity.Count - request.Count,
             _ => newQuantity.Count
         };
+
+        var quantity = request.QuantityDto();
+        var history = item.QuantityHistories;
+        history.Add(quantity);
         
-        var updatedItem = await _itemsRepository.UpdateQuantityAsync(id, newQuantity);
+        var updatedItem = await _itemsRepository.UpdateQuantityAsync(id, newQuantity, history);
         return updatedItem.AsDto();
     }
 
     [HttpDelete("{id:length(24)}")]
-        public async Task<ActionResult> DeleteItem(string id)
-        {
+    public async Task<ActionResult> DeleteItem(string id)
+    {
+        var item = _itemsRepository.GetItemAsync(id);
+        await _itemsRepository.DeleteItemAsync(id);
 
-            var item = _itemsRepository.GetItemAsync(id);
-
-            await _itemsRepository.DeleteItemAsync(id);
-
-            return NoContent();
-
-        }
-    
+        return NoContent();
+    }
 }

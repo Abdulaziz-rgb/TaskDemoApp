@@ -11,15 +11,15 @@ public static class Extensions
         {
             Id = item.Id,
             Name = item.Name,
-            ItemPrice = new Price
+            Price = new Price
             {
-                Amount = item.ItemPrice.Amount,
-                CurrencyType = item.ItemPrice.CurrencyType
+                Amount = item.Price.Amount,
+                CurrencyType = item.Price.CurrencyType
             },
-            ItemQuantity = new Quantity
+            Quantity = new Quantity
             {
-                Count = item.ItemQuantity.Count,
-                QuantityType = item.ItemQuantity.QuantityType
+                Count = item.Quantity.Count,
+                QuantityType = item.Quantity.QuantityType
             }
         };
     }
@@ -29,12 +29,12 @@ public static class Extensions
         return new Item
         {
             Name = item.Name,
-            ItemPrice = new Price
+            Price = new Price
             {
                 Amount = item.ItemPrice.Amount,
                 CurrencyType = item.ItemPrice.CurrencyType
             },
-            ItemQuantity = new Quantity
+            Quantity = new Quantity
             {
                 Count = item.ItemQuantity.Count,
                 QuantityType = item.ItemQuantity.QuantityType
@@ -47,16 +47,25 @@ public static class Extensions
          return new Item
          {
              Name = item.Name,
-             ItemPrice = new Price
+             Price = new Price
              {
                  Amount = item.ItemPrice.Amount,
                  CurrencyType = item.ItemPrice.CurrencyType
-             },
-             // ItemQuantity = new Quantity
-             // {
-             //     Count = item.ItemQuantity.Count,
-             //     QuantityType = item.ItemQuantity.QuantityType
-             // }
+             }
          };
      }
+
+     public static Quantity QuantityDto(this QuantityDto quantityDto)
+     {
+         return new Quantity
+         {
+             Count = quantityDto.Count,
+             QuantityType = quantityDto.QuantityType,
+             OperationType = quantityDto.OperationType
+         };
+     } 
+     
+     
+     
+     
 }

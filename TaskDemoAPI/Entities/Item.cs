@@ -11,7 +11,9 @@ public record Item
     
     public string? Name { get; init; }
 
-    public Price ItemPrice { get; init; }
+    public Price Price { get; init; }
 
-    public Quantity ItemQuantity { get; init; }
+    public Quantity Quantity { get; init; }
+
+    public List<Quantity> QuantityHistories { get; set; } = new();
 }

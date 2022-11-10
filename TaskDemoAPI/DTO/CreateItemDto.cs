@@ -5,7 +5,6 @@ namespace TaskDemoAPI.DTO;
 
 public class CreateItemDto
 {
-   
     [Required] 
     public string Name { get; set; }
     

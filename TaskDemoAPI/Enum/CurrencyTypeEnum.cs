@@ -2,8 +2,7 @@
 
 public enum CurrencyTypeEnum
 {
-
-    Dollar,
+    USD,
     UZS
 }
 
