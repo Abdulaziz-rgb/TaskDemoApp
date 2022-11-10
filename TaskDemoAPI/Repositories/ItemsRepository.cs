@@ -34,13 +34,15 @@ public class ItemsRepository : IItemsRepository
         return item;
     }
 
-     public async Task UpdateItemAsync(Item item)
+     public async Task<Item> UpdateItemAsync(string id, Item item)
      {
-         var filter = _filterBuilder.Eq(existingItem => existingItem.Id, item.Id);
+         var filter = _filterBuilder.Eq(existingItem => existingItem.Id, id);
          await _itemsCollection.ReplaceOneAsync(filter, item);
+         
+         return await GetItemAsync(id);
      }
 
-     public async Task<Item?> UpdateQuantityAsync(string id, Quantity quantity, List<Quantity> history)
+     public async Task<Item> UpdateQuantityAsync(string id, Quantity quantity, List<Quantity> history)
      {
          var filter = _filterBuilder.Eq(item => item.Id, id);
          var set = Builders<Item>.Update

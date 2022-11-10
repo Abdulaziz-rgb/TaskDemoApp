@@ -43,15 +43,15 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPut("{id:length(24)}")]
-    public async Task<IActionResult> UpdateItem(string id, [FromBody] UpdateItemDto itemDto)
+    public async Task<ActionResult<ItemDto>> UpdateItem(string id, [FromBody] UpdateItemDto itemDto)
     {
         var item = await _itemsRepository.GetItemAsync(id);
         if (item is null) return NotFound();
         
         var updatedItem = itemDto.UpdateDto();
-        await _itemsRepository.UpdateItemAsync(updatedItem);
-
-        return NoContent();
+        var result = await _itemsRepository.UpdateItemAsync(id, updatedItem);
+        
+        return result.AsDto();
     }
     
     [HttpPut("{id:length(24)}/quantity")]

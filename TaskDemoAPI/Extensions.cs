@@ -11,6 +11,30 @@ public static class Extensions
         {
             Id = item.Id,
             Name = item.Name,
+            Price = new PriceDto
+            {
+                Amount = item.Price.Amount,
+                CurrencyType = item.Price.CurrencyType
+            },
+            Quantity = new QuantityDto
+            {
+                Count = item.Quantity.Count,
+                QuantityType = item.Quantity.QuantityType
+            },
+            QuantityHistories = item.QuantityHistories.ConvertAll(quantity => new QuantityDto()
+            {
+                Count = quantity.Count,
+                QuantityType = quantity.QuantityType,
+                OperationType = quantity.OperationType
+            })
+        };
+    }
+
+    public static Item CreateDto(this CreateItemDto item)
+    {
+        return new Item
+        {
+            Name = item.Name,
             Price = new Price
             {
                 Amount = item.Price.Amount,
@@ -24,24 +48,6 @@ public static class Extensions
         };
     }
 
-    public static Item CreateDto(this CreateItemDto item)
-    {
-        return new Item
-        {
-            Name = item.Name,
-            Price = new Price
-            {
-                Amount = item.ItemPrice.Amount,
-                CurrencyType = item.ItemPrice.CurrencyType
-            },
-            Quantity = new Quantity
-            {
-                Count = item.ItemQuantity.Count,
-                QuantityType = item.ItemQuantity.QuantityType
-            }
-        };
-    }
-
      public static Item UpdateDto(this UpdateItemDto item)
      {
          return new Item
@@ -49,8 +55,8 @@ public static class Extensions
              Name = item.Name,
              Price = new Price
              {
-                 Amount = item.ItemPrice.Amount,
-                 CurrencyType = item.ItemPrice.CurrencyType
+                 Amount = item.Price.Amount,
+                 CurrencyType = item.Price.CurrencyType
              }
          };
      }
@@ -63,9 +69,5 @@ public static class Extensions
              QuantityType = quantityDto.QuantityType,
              OperationType = quantityDto.OperationType
          };
-     } 
-     
-     
-     
-     
+     }
 }

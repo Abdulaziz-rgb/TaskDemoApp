@@ -7,5 +7,5 @@ public class UpdateItemDto
 {
     public string? Name { get; set; }
 
-    public Price? ItemPrice { get; set; }
+    public Price? Price { get; set; }
 }

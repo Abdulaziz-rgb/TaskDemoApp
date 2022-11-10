@@ -8,7 +8,9 @@ public class ItemDto
 
     public string? Name { get; set; }
 
-    public Price Price { get; set; }
+    public PriceDto Price { get; set; }
 
-    public Quantity Quantity { get; set; }
+    public QuantityDto Quantity { get; set; }
+    
+    public List<QuantityDto> QuantityHistories { get; set; }
 }
