@@ -13,7 +13,6 @@ public class ItemsRepository : IItemsRepository
     public ItemsRepository(IOptions<DatabaseSettings> databaseSettings)
     {
         var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
-     
         var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 
         _itemsCollection = mongoDatabase.GetCollection<Item>(databaseSettings.Value.CollectionName);
@@ -24,14 +23,15 @@ public class ItemsRepository : IItemsRepository
        return await _itemsCollection.Find(_ => true).ToListAsync();
     }
     
-    public async Task<Item> GetItemAsync(string id)
+    public async Task<Item?> GetItemAsync(string id)
     {
         return await _itemsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task CreateItemAsync(Item newItem)
+    public async Task<Item> CreateItemAsync(Item item)
     {
-        await _itemsCollection.InsertOneAsync(newItem);
+        await _itemsCollection.InsertOneAsync(item);
+        return item;
     }
 
      public async Task UpdateItemAsync(Item item)
@@ -40,10 +40,13 @@ public class ItemsRepository : IItemsRepository
          await _itemsCollection.ReplaceOneAsync(filter, item);
      }
 
-     public async Task UpdateQuantityAsync(string id, Quantity quantity)
+     public async Task<Item?> UpdateQuantityAsync(string id, Quantity quantity)
      {
+         var filter = _filterBuilder.Eq(item => item.Id, id);
          var set = Builders<Item>.Update.Set(x => x.ItemQuantity, quantity);
-         await _itemsCollection.UpdateOneAsync(item => item.Id == id, set);
+         await _itemsCollection.UpdateOneAsync(filter, set);
+
+         return await GetItemAsync(id);
      }
 
     public async Task DeleteItemAsync(string id)

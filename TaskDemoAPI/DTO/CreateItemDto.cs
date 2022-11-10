@@ -7,9 +7,11 @@ public class CreateItemDto
 {
    
     [Required] 
-    public string? Name { get; set; }
+    public string Name { get; set; }
     
-    public Price? ItemPrice { get; set; }
+    [Required]
+    public Price ItemPrice { get; set; }
     
-    public Quantity? ItemQuantity { get; set; }
+    [Required]
+    public Quantity ItemQuantity { get; set; }
 }

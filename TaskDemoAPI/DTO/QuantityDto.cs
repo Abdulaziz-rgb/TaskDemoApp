@@ -13,4 +13,6 @@ public class QuantityDto
     [BsonRepresentation(BsonType.String)]
     public QuantityTypeEnum QuantityType { get; set; }
     
+    public OperationTypeEnum OperationType { get; set; }
+    
 }

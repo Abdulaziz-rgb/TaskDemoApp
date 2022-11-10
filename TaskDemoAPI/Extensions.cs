@@ -52,11 +52,11 @@ public static class Extensions
                  Amount = item.ItemPrice.Amount,
                  CurrencyType = item.ItemPrice.CurrencyType
              },
-             ItemQuantity = new Quantity
-             {
-                 Count = item.ItemQuantity.Count,
-                 QuantityType = item.ItemQuantity.QuantityType
-             }
+             // ItemQuantity = new Quantity
+             // {
+             //     Count = item.ItemQuantity.Count,
+             //     QuantityType = item.ItemQuantity.QuantityType
+             // }
          };
      }
 }
