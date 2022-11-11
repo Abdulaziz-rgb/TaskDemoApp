@@ -69,7 +69,7 @@ public class ItemsController : ControllerBase
         {
             OperationTypeEnum.ADD => item.Quantity.Count + request.Count,
             OperationTypeEnum.SUB => item.Quantity.Count - request.Count,
-            _ => newQuantity.Count
+            _ => item.Quantity.Count
         };
 
         var quantity = request.QuantityDto();
