@@ -5,7 +5,7 @@ namespace TaskDemoAPI.DTO;
 
 public class UpdateItemDto
 {
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
-    public Price? Price { get; set; }
+    public Price Price { get; set; }
 }

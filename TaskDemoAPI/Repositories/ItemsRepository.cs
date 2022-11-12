@@ -34,13 +34,26 @@ public class ItemsRepository : IItemsRepository
         return item;
     }
 
-     public async Task<Item> UpdateItemAsync(string id, Item item)
-     {
-         var filter = _filterBuilder.Eq(existingItem => existingItem.Id, id);
-         await _itemsCollection.ReplaceOneAsync(filter, item);
-         
-         return await GetItemAsync(id);
-     }
+     // public async Task<Item> UpdateItemAsync(string id, Item item)
+     // {
+     //     var filter = _filterBuilder.Eq(existingItem => existingItem.Id, id);
+     //     await _itemsCollection.ReplaceOneAsync(filter, item);
+     //     
+     //     return await GetItemAsync(id);
+     // }
+     
+      public async Task<Item> UpdateItemAsync(string id, Item item)
+      {
+          var filter = _filterBuilder.Eq(existingItem => existingItem.Id, id);
+          var set = Builders<Item>.Update
+              .Set(x => x.Name, item.Name)
+              .Set(x => x.Price.Amount, item.Price.Amount)
+              .Set(x => x.Price.CurrencyType, item.Price.CurrencyType);
+     
+          await _itemsCollection.FindOneAndUpdateAsync(filter, set);
+          
+          return await GetItemAsync(id);
+      }
 
      public async Task<Item> UpdateQuantityAsync(string id, Quantity quantity, List<Quantity> history)
      {
@@ -55,6 +68,6 @@ public class ItemsRepository : IItemsRepository
 
     public async Task DeleteItemAsync(string id)
     {
-        await _itemsCollection.DeleteOneAsync(id);
+        await _itemsCollection.FindOneAndDeleteAsync(x => x.Id == id);
     }
 }

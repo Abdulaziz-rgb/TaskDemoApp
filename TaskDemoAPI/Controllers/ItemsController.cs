@@ -51,7 +51,8 @@ public class ItemsController : ControllerBase
         var updatedItem = itemDto.UpdateDto();
         var result = await _itemsRepository.UpdateItemAsync(id, updatedItem);
         
-        return result.AsDto();
+        // return result.AsDto();
+        return CreatedAtAction(nameof(GetItem), new { id = item.Id }, result.AsDto());
     }
     
     [HttpPut("{id:length(24)}/quantity")]
@@ -84,6 +85,8 @@ public class ItemsController : ControllerBase
     public async Task<ActionResult> DeleteItem(string id)
     {
         var item = _itemsRepository.GetItemAsync(id);
+        if (item is null) return NotFound();
+        
         await _itemsRepository.DeleteItemAsync(id);
 
         return NoContent();
